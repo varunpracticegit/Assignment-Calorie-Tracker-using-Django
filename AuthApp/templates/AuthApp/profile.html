@@ -1,0 +1,85 @@
+{% extends 'AuthApp/base.html' %}
+{% block content %}
+    <title>User Profile</title>
+    <style>
+        body {
+            background-color: #f7f7f7;
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        h2 {
+            color: #555;
+            font-size: 24px;
+            margin-top: 40px;
+            margin-bottom: 20px;
+        }
+        h3 {
+            color: #666;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        form {
+            margin-top: 20px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 20px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        input[type="submit"] {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #444;
+        }
+        .er {
+            color:red;
+        }
+        .success {
+            color: green;
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>User Profile</h1>
+    <h2 style = "text-transform:capitalize;" align="center"> Welcome {{name}}</h2>    
+    {% if messages %}
+     {% for message in messages %}
+        {% if message.tags == 'success' %}
+            <p class="success">{{ message }}</p>
+        {% elif message.tags == 'error' %}
+            <p class="error">{{ message }}</p>
+        {% else %}
+            <p>{{ message }}</p>
+        {% endif %}
+     {% endfor %}
+    {% endif %}
+    <form action="" method="post" novalidate align="center">
+        {% csrf_token %}
+         {% if form.non_field_errors %}
+          {% for error in form.non_field_errors  %}
+            <p class="er">{{ error }}</p>
+          {% endfor %} 
+         {% endif %}
+         {% for fm in form %}
+           {{ fm.label_tag }} {{ fm }} {{ fm.errors|striptags }}<br><br>
+         {% endfor %} 
+         <input type="submit" value="Save"><br><br>
+         <a href="{% url 'logout' %}">Logout</a>  &nbsp;&nbsp;  
+         <a href="{% url 'changepassword' %}">Change Password</a> &nbsp;&nbsp;
+         <a href="{% url 'changepassword1' %}">Change Password 1</a>
+    </form>
+{% endblock content %} 
+</body>
+</html>
